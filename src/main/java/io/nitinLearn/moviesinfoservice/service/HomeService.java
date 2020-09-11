@@ -20,8 +20,8 @@ public class HomeService {
 	@Value("${apiKey}")
 	String apiKey;
 	
-	@Autowired
-	RestTemplate restTemplate;
+	/*@Autowired
+	RestTemplate restTemplate;*/
 
 
 	public Movie getMovieInfo(String movieId) {
@@ -30,8 +30,11 @@ public class HomeService {
 		log.info("url "+apiUrl);
 		log.info("api key "+apiKey);
 	//	return new Movie("Test" , movieId);
+		String theUrl= apiUrl+movieId+"?api_key="+apiKey;
+		log.info("the ur l is "+theUrl);
+		RestTemplate restTemplate = new RestTemplate();
 		
-		MovieSummary movieSummary = restTemplate.getForObject(apiUrl+movieId+"?api_key="+apiKey, MovieSummary.class);
+		MovieSummary movieSummary = restTemplate.getForObject(theUrl, MovieSummary.class);
 		log.info("movie summary is "+movieSummary.toString());
 		return new Movie(movieSummary.getTitle(),movieId);
 	}
