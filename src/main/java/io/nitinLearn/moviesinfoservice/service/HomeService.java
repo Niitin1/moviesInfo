@@ -3,6 +3,7 @@ package io.nitinLearn.moviesinfoservice.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,7 +33,10 @@ public class HomeService {
 	//	return new Movie("Test" , movieId);
 		String theUrl= apiUrl+movieId+"?api_key="+apiKey;
 		log.info("the ur l is "+theUrl);
-		RestTemplate restTemplate = new RestTemplate();
+		
+		HttpComponentsClientHttpRequestFactory httpClientRequestFactory = new HttpComponentsClientHttpRequestFactory();
+		httpClientRequestFactory.setConnectTimeout(3000);
+		RestTemplate restTemplate = new RestTemplate(httpClientRequestFactory);
 		
 		MovieSummary movieSummary = restTemplate.getForObject(theUrl, MovieSummary.class);
 		log.info("movie summary is "+movieSummary.toString());
